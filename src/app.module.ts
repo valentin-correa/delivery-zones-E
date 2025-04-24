@@ -11,7 +11,7 @@ import { entities } from './entities';
         hots: 'localhost',
         database: 'asd',
         username: 'asd',
-        password: '123'
+        password: '123',
         synchronize: true,
         entities,
     }),
