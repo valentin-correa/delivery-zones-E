@@ -1,8 +1,8 @@
 import { BaseEntity, Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
-"import { Zones }"
+import { Zone } from "./zones.entity"
 
 @Entity('deliveries')
-export class Deliveries extends BaseEntity{
+export class Delivery extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -20,9 +20,6 @@ export class Deliveries extends BaseEntity{
 
     @Column()
     status: string;
-
-    @Column()
-    zones:Zones[];
     
     @ManyToMany(() => Zone, zone => zone.deliveries)
     zones:Zone[];

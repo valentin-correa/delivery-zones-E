@@ -1,5 +1,5 @@
 import { BaseEntity, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Delivery } from '.'
+import { Delivery } from "./deliveries.entity"
 
 @Entity('zones')
 export class Zone extends BaseEntity {
