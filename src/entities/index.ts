@@ -1,3 +1,4 @@
-import { Deliveries } from "./deliveries.entities";
+import { Delivery } from './deliveries.entity'
+import { Zone } from './zones.entity'
 
-export const entities = [Deliveries];
+export const entities = [Delivery, Zone];
