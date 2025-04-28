@@ -12,7 +12,7 @@ export class Delivery extends BaseEntity{
     @Column()
     location: {
         lat:number,
-        ing:number
+        lng:number
     };
 
     @Column()
