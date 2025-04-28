@@ -4,6 +4,7 @@ import { entities } from './entities/index';
 import { DeliveryService } from './delivery/delivery.service';
 import { ZoneService } from './zone/zone.service';
 import { ZoneController } from './zone/zone.controller';
+import { DeliveryController } from './delivery/delivery.controller';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { ZoneController } from './zone/zone.controller';
     }),
     TypeOrmModule.forFeature(entities),
   ],
-  controllers: [ZoneController],
-  providers: [DeliveryService, ZoneService],
+  controllers: [ ZoneController, DeliveryController],
+  providers: [ DeliveryService, ZoneService], 
 })
 export class AppModule {}

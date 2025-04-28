@@ -10,4 +10,9 @@ export class ZoneService {
   async find():Promise<Zone[]> {
     return await this.repository.find();
   }
+  async create(newZone:{name:string,location:{lat:number,lng:number},radius:number}): Promise<Zone>{
+    const zone=this.repository.create(newZone);
+    await this.repository.save(zone);
+    return zone
+}
 }
