@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-// import { AppService } from './app.service'; puede ser que esto está de más?
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { entities } from './entities/index';
 import { DeliveryService } from './delivery/delivery.service';
@@ -21,8 +19,7 @@ import { DeliveryController } from './delivery/delivery.controller';
     }),
     TypeOrmModule.forFeature(entities),
   ],
-  controllers: [AppController, ZoneController, DeliveryController],
+  controllers: [ ZoneController, DeliveryController],
   providers: [ DeliveryService, ZoneService], 
 })
 export class AppModule {}
-//le saque el AppService
