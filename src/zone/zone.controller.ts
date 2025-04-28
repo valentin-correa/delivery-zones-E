@@ -1,6 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Get } from '@nestjs/common';
 import { ZoneService } from './zone.service';
 import {Zone} from '../entities/zones.entity';
+
 
 @Controller('zone')
 export class ZoneController {
