@@ -3,10 +3,8 @@ import { DeliveryService } from './delivery.service';
 import {Delivery} from '../entities/deliveries.entity'
 
 @Controller('delivery')
-export class DeliveryController {}
-export class ZoneController {
+export class DeliveryController {
     constructor(private readonly deliveryService: DeliveryService) {}
-
 
     @Get('findByProximity')
     async findByProximity(@Query('lat') lat: number,@Query('lng') lng: number,@Query('radius') radius: number):Promise<Delivery[]>{
