@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get } from '@nestjs/common';
+import { Body, Controller, Post, Get, Delete, Param } from '@nestjs/common';
 import { ZoneService } from './zone.service';
 import {Zone} from '../entities/zones.entity';
 
@@ -16,5 +16,11 @@ export class ZoneController {
     async createZone(@Body() newZone:{name:string,location:{lat:number,lng:number},radius:number}): Promise<Zone>{
         return await this.zoneService.create(newZone)
     }
-    
+
+    @Delete(':id')
+    async remove(@Param('id') id: number){
+        return `This action removes cat with ID ${id}`;
+  }
+}
+
 }
