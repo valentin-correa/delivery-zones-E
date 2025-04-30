@@ -44,8 +44,8 @@ export class DeliveryService {
         
         return distance;
       }
-      async findByZone(id:number):Promise<Delivery[]>{
-        const deliveries = await this.deliveryRepository.find({relations: ['zones'],});
+    async findByZone(id:number):Promise<Delivery[]>{
+        const deliveries = await this.deliveryRepository.find({relations: ['zones'],});//.find({relations: ['zones'],}) trae la relacion zones
         return deliveries.filter(d=> d.zones.some(z=>z.id===id))
     }
 
