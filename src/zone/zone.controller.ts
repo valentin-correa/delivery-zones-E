@@ -22,5 +22,3 @@ export class ZoneController {
         return `This action removes cat with ID ${id}`;
   }
 }
-
-}

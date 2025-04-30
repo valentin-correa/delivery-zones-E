@@ -45,27 +45,5 @@ export class DeliveryService {
         return distance;
       }
       
-    async findByZone(id:number):Promise<Delivery[]>{
-        const deliveries = await this.deliveryRepository
-            .createQueryBuilder('delivery')//Creamos una consulta SQL personalizada sobre la tabla deliveries, usando el alias 'delivery'.
-            .leftJoinAndSelect('delivery.zones', 'zone')//Unimos con la tabla intermedia que conecta deliveries con zones (relación @ManyToMany), y además traemos toda la información de las zonas.
-      //QUIERO VER SI ESTO ESTA BIEN
-            .where('zone.id = :zoneId', { zoneId })//Filtramos: solo queremos deliveries relacionados con la zona cuyo id es igual al valor que recibimos.
-            .getMany();//Ejecuta la consulta y devuelve todos los deliveries que cumplan la condición.
 
-            //Formateo respuesta
-            return deliveries.map(delivery => ({
-                id: delivery.id,
-                personId: delivery.person,
-                location: delivery.location,
-                radius: delivery.radius,
-                status: delivery.status,
-                zones: delivery.zones.map(zone => ({
-                  id: zone.id,
-                  name: zone.name,
-                  location: zone.location,
-                  radius: zone.radius,
-                }))
-              }));
-    }
 }
