@@ -9,7 +9,7 @@ export class Delivery extends BaseEntity{
     @Column()
     person: number;
 
-    @Column()
+    @Column('json')
     location: {
         lat:number,
         lng:number

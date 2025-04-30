@@ -11,6 +11,11 @@ export class DeliveryController {
         return await this.deliveryService.findByProximity(lat,lng,radius)
     }
 
+    @Get('findByZone')
+    async findByZone(@Query('zoneId') zoneId: number):Promise<Delivery[]>{
+        return await this.deliveryService.findByZone(Number(zoneId));
+    }
+
     @Put (':id/location')
     async updateLocation(@Param('id') id:number,@Body() location:{lat:number,lng:number}): Promise<Delivery>{
         return await this.deliveryService.updateLocation(id, location)
