@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, Query, Post } from '@nestjs/common';
 import { DeliveryService } from './delivery.service';
 import {Delivery} from '../entities/deliveries.entity'
 
@@ -19,6 +19,11 @@ export class DeliveryController {
     @Put (':id/location')
     async updateLocation(@Param('id') id:number,@Body() location:{lat:number,lng:number}): Promise<Delivery>{
         return await this.deliveryService.updateLocation(id, location)
+    }
+
+    @Post(':id/assignZone')
+    async assignZone(@Param('id') id: number, @Body() zoneIds: number[]): Promise<Delivery> {
+        return await this.deliveryService.assignZone(id, zoneIds);
     }
     
 }
