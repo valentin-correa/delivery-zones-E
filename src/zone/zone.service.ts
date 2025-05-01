@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Zone } from '../entities/zones.entity';
 import { Repository } from 'typeorm';
+import { json } from 'stream/consumers';
 
 @Injectable()
 export class ZoneService {
@@ -28,4 +29,16 @@ export class ZoneService {
         await this.repository.save(zone);
         return zone;
     }
+
+    async deleteZone(id: number) {
+        const zone = await this.repository.findOne({where: {id}});
+
+        if (zone) {
+            await this.repository.remove(zone);
+        }
+        else throw new Error(`Zone wit id ${id} not found`);
+        
+        return { message: "Zone deleted" }
+    }
+
 }

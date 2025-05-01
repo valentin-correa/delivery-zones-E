@@ -19,11 +19,13 @@ export class ZoneController {
 
     @Delete(':id')
     async remove(@Param('id') id: number){
-        return `This action removes cat with ID ${id}`;
+        return await this.zoneService.deleteZone(id);
   }
 
     @Put(':id')
     async updateZone(@Param('id') id: number, @Body() updatedZone : {name: string, location: {lat: number, lng: number}, radius: number}): Promise<Zone> {
         return await this.zoneService.updateZone(id, updatedZone);
     }
+
+    
 }
