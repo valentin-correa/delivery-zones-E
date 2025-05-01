@@ -21,7 +21,7 @@ export class ZoneService {
         const zone = await this.repository.findOne( {where: {id} });
 
         if (!zone) {
-            throw new NotFoundException(`Zone wit id ${id} not found`);
+            throw new NotFoundException(`Zone with id ${id} not found`);
         }
 
         Object.assign(zone, updateZone); // Este método se encarga de asignarle al objeto `zone`, definido al principio de la función, las propiedades del objeto `updateZone`
@@ -36,7 +36,7 @@ export class ZoneService {
         if (zone) {
             await this.repository.remove(zone);
         }
-        else throw new Error(`Zone wit id ${id} not found`);
+        else throw new Error(`Zone with id ${id} not found`);
         
         return { message: "Zone deleted" }
     }
