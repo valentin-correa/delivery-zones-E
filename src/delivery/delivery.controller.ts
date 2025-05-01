@@ -22,7 +22,7 @@ export class DeliveryController {
     }
 
     @Post(':id/assignZone')
-    async assignZone(@Param('id') id: number, @Body() zoneIds: number[]): Promise<Delivery> {
+    async assignZone(@Param('id') id: number, @Body('zoneIds') zoneIds: number[]): Promise<Delivery> {
         return await this.deliveryService.assignZone(id, zoneIds);
     }
     
