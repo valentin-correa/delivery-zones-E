@@ -69,5 +69,11 @@ export class DeliveryService {
         
         return delivery;
       }
+
+    async createDelivery(newDelivery:{personId:number,location:{lat:number,lng:number},radius:number}) : Promise<Delivery> {
+        const delivery=this.deliveryRepository.create(newDelivery);
+        await this.deliveryRepository.save(delivery);
+        return delivery
+    }
       
 }

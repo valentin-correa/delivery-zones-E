@@ -25,5 +25,10 @@ export class DeliveryController {
     async assignZone(@Param('id') id: number, @Body('zoneIds') zoneIds: number[]): Promise<Delivery> {
         return await this.deliveryService.assignZone(id, zoneIds);
     }
+
+    @Post()
+    async createDelivery(@Body() newDelivery:{personId:number,location:{lat:number,lng:number},radius:number}) : Promise<Delivery>{
+        return await this.deliveryService.createDelivery(newDelivery)
+    }
     
 }
