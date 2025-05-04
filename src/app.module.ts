@@ -15,7 +15,7 @@ import { DeliveryController } from './delivery/delivery.controller';
         username: 'postgres',
         password: 'postgres',
         port: 5432,
-        synchronize: false,
+        synchronize: true,
         entities,
     }),
     TypeOrmModule.forFeature(entities),
