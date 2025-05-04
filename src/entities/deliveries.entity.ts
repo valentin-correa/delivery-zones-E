@@ -7,7 +7,7 @@ export class Delivery extends BaseEntity{
     id: number;
 
     @Column()
-    person: number;
+    personId: number;
 
     @Column('json')
     location: {
@@ -18,8 +18,8 @@ export class Delivery extends BaseEntity{
     @Column()
     radius: number;
 
-    @Column()
-    status: string;
+    @Column({ type: "text", nullable: true })
+    status: string | null;
     
     @ManyToMany(() => Zone, zone => zone.deliveries)
     zones:Zone[];
