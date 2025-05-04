@@ -14,10 +14,12 @@ export class DeliveryService {
     }
     async findByProximity(requestLat:number,requestLng:number, radius:number):Promise<Delivery[]>{
         const deliveries=await this.deliveryRepository.find()
-        return deliveries.sort((a, b) => {
+        return deliveries.filter(a=>this.haversine(a.location.lat, a.location.lng, requestLat, requestLng)<=radius)
+        .sort((a, b) => {
             return this.haversine(a.location.lat, a.location.lng, requestLat, requestLng) - this.haversine(b.location.lat, b.location.lng, requestLat, requestLng); 
              // Si distancia A es menor, 'a' estará antes que 'b'
         });
+        //considerar mejorar la eficiencia llamando a haversine menos veces.
     }
     async updateLocation(id:number,newLocation:{lat:number,lng:number}): Promise<Delivery>{
         const delivery=await this.deliveryRepository.findOne({ where: { id } });
