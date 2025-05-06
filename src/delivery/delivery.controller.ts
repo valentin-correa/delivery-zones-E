@@ -13,11 +13,11 @@ export class DeliveryController {
 
     @Get('findByZone')
     async findByZone(@Query('zoneId') zoneId: number):Promise<Delivery[]>{
-        return await this.deliveryService.findByZone(Number(zoneId));
+        return await this.deliveryService.findByZone(zoneId);
     }
 
     @Put (':id/location')
-    async updateLocation(@Param('id') id:number,@Body() location:{lat:number,lng:number}): Promise<Delivery>{
+    async updateLocation(@Param('id') id:number,@Body('location') location:{lat:number,lng:number}): Promise<Delivery>{
         return await this.deliveryService.updateLocation(id, location)
     }
 
