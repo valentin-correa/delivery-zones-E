@@ -17,7 +17,7 @@ export class DeliveryController {
     }
 
     @Put (':id/location')
-    async updateLocation(@Param('id') id:number,@Body() location:{lat:number,lng:number}): Promise<Delivery>{
+    async updateLocation(@Param('id') id:number,@Body('location') location:{lat:number,lng:number}): Promise<Delivery>{
         return await this.deliveryService.updateLocation(id, location)
     }
 
