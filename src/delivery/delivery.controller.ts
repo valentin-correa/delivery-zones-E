@@ -9,7 +9,7 @@ export class DeliveryController {
 
     @Get('findByProximity')
     async findByProximity(@Query() findByProximityDto: FindByProximityDto):Promise<Delivery[]>{
-        return await this.deliveryService.findByProximity(find)
+        return await this.deliveryService.findByProximity(findByProximityDto)
     }
 
     @Get('findByZone')
