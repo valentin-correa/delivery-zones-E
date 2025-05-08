@@ -13,7 +13,7 @@ export class DeliveryService {
     async find():Promise<Delivery[]> {
     return await this.deliveryRepository.find();
     }
-    async findByProximity(proximityInfo: FindByProximityDto):Promise<Delivery[]>{
+    async findByProximity(requestLat:number,requestLng:number, radius:number):Promise<Delivery[]>{
         const deliveries=await this.deliveryRepository.find()
         const { lat, lng, radius } = proximityInfo
 
@@ -77,5 +77,16 @@ export class DeliveryService {
         await this.deliveryRepository.save(delivery);
         return delivery
     }
-      
+
+    async deleteDelivery(id: number) {
+        const delivery = await this.deliveryRepository.findOne({ where: { id } });
+    
+        if (!delivery) {
+            throw new Error(`Delivery with id ${id} not found`);
+        }
+    
+        await this.deliveryRepository.softRemove(delivery);
+    
+        return { message: "Delivery deleted" };
+    }
 }
