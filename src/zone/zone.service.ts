@@ -37,9 +37,14 @@ export class ZoneService {
         if (zone) {
             await this.repository.softRemove(zone);
         }
-        else throw new Error(`Zone with id ${id} not found`);
+        else throw new NotFoundException(`Zone with id ${id} not found`);
         
         return { message: "Zone deleted" }
     }
+
+    async findZonesById(zoneIds: number[]): Promise<Zone[]> {
+         return await this.repository.find(
+            {where: zoneIds.map(zoneId => ({ id: zoneId })) }
+    )}
 
 }

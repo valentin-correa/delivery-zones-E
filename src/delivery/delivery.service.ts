@@ -2,13 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Delivery } from '../entities/deliveries.entity';
 import { Repository } from 'typeorm';
-import { Zone } from '../entities/zones.entity'
 import { FindByProximityDto } from './dto/updateLocation.dto';
+import { ZoneService } from 'src/zone/zone.service';
 
 @Injectable()
 export class DeliveryService {
     constructor(@InjectRepository(Delivery) private deliveryRepository: Repository<Delivery>,
-                @InjectRepository(Zone) private zoneRepository: Repository<Zone>
+                private readonly zoneService: ZoneService
             ) {}
     async find():Promise<Delivery[]> {
     return await this.deliveryRepository.find();
@@ -62,9 +62,7 @@ export class DeliveryService {
 
         if (!delivery) { throw new NotFoundException(`Delivery with id ${id} not found`)}
 
-        const zones = await this.zoneRepository.find({
-            where: zoneIds.map(zoneId => ({ id: zoneId }))
-        });
+        const zones = await this.zoneService.findZonesById(zoneIds);
 
         if (zones.length !== zoneIds.length) { throw new NotFoundException(`One or more zones with provided IDs do not exist`)}
 
