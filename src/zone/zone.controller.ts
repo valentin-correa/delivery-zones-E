@@ -1,6 +1,7 @@
 import { Body, Controller, Post, Get, Delete, Put, Param } from '@nestjs/common';
 import { ZoneService } from './zone.service';
 import {Zone} from '../entities/zones.entity';
+import { CreateZoneDto } from './dto/createZone.dto';
 
 
 @Controller('zone')
@@ -13,7 +14,7 @@ export class ZoneController {
     }
 
     @Post ()
-    async createZone(@Body() newZone:{name:string,location:{lat:number,lng:number},radius:number}): Promise<Zone>{
+    async createZone(@Body() newZone:CreateZoneDto): Promise<Zone>{
         return await this.zoneService.create(newZone)
     }
 

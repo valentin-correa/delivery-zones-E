@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Zone } from '../entities/zones.entity';
 import { Repository } from 'typeorm';
 import { json } from 'stream/consumers';
+import { CreateZoneDto } from './dto/createZone.dto';
 
 @Injectable()
 export class ZoneService {
@@ -11,7 +12,7 @@ export class ZoneService {
     async find():Promise<Zone[]> {
         return await this.repository.find();
     }
-    async create(newZone:{name:string,location:{lat:number,lng:number},radius:number}): Promise<Zone>{
+    async create(newZone:CreateZoneDto): Promise<Zone>{
         const zone=this.repository.create(newZone);
         await this.repository.save(zone);
         return zone
