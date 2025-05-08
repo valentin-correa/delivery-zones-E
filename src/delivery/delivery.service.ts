@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Delivery } from '../entities/deliveries.entity';
 import { Repository } from 'typeorm';
 import { FindByProximityDto } from './dto/updateLocation.dto';
 import { ZoneService } from 'src/zone/zone.service';
+import { Delivery } from '../entities/deliveries.entity';
+import { Zone } from '../entities/zones.entity';
 
 @Injectable()
 export class DeliveryService {
@@ -13,7 +14,7 @@ export class DeliveryService {
     async find():Promise<Delivery[]> {
     return await this.deliveryRepository.find();
     }
-    async findByProximity(requestLat:number,requestLng:number, radius:number):Promise<Delivery[]>{
+    async findByProximity(proximityInfo: FindByProximityDto):Promise<Delivery[]>{
         const deliveries=await this.deliveryRepository.find()
         const { lat, lng, radius } = proximityInfo
 
