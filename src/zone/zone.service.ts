@@ -1,8 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Zone } from '../entities/zones.entity';
 import { Repository } from 'typeorm';
-import { json } from 'stream/consumers';
+import { Zone } from '../entities/zones.entity';
 import { CreateZoneDto } from './dto/createZone.dto';
 
 @Injectable()
@@ -37,9 +36,28 @@ export class ZoneService {
         if (zone) {
             await this.repository.softRemove(zone);
         }
-        else throw new Error(`Zone with id ${id} not found`);
+        else throw new NotFoundException(`Zone with id ${id} not found`);
         
         return { message: "Zone deleted" }
     }
+
+    async removeDeliveryFromZone(zoneId: number, deliveryId: number) {
+        const zone = await this.repository.findOne({
+          where: { id: zoneId },
+          relations: ['deliveries'],
+        });
+      
+        if (!zone) throw new NotFoundException(`Zone with id ${zoneId} not found`);
+      
+        if (!zone.deliveries.some(delivery => delivery.id === deliveryId)) {
+            throw new Error(`Delivery ${deliveryId} is not associated with zone ${zoneId}`);
+          }
+
+        zone.deliveries = zone.deliveries.filter(delivery => delivery.id !== deliveryId);
+      
+        await this.repository.save(zone);
+      
+        return { message: "Zone removed from delivery" };
+      }
 
 }
