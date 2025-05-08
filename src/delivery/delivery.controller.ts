@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Put, Query, Post } from '@nestjs/common';
 import { DeliveryService } from './delivery.service';
 import {Delivery} from '../entities/deliveries.entity'
 import { FindByProximityDto } from './dto/updateLocation.dto';
+import { CreateDeliveryDto } from './dto/createDelivery.dto';
 
 @Controller('delivery')
 export class DeliveryController {
@@ -28,7 +29,7 @@ export class DeliveryController {
     }
 
     @Post()
-    async createDelivery(@Body() newDelivery:{personId:number,location:{lat:number,lng:number},radius:number}) : Promise<Delivery>{
+    async createDelivery(@Body() newDelivery:CreateDeliveryDto) : Promise<Delivery>{
         return await this.deliveryService.createDelivery(newDelivery)
     }
     

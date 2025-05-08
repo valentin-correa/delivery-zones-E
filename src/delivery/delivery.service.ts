@@ -4,6 +4,7 @@ import { Delivery } from '../entities/deliveries.entity';
 import { Repository } from 'typeorm';
 import { FindByProximityDto } from './dto/updateLocation.dto';
 import { ZoneService } from 'src/zone/zone.service';
+import { CreateZoneDto } from 'src/zone/dto/createZone.dto';
 
 @Injectable()
 export class DeliveryService {
@@ -72,7 +73,7 @@ export class DeliveryService {
         return delivery;
       }
 
-    async createDelivery(newDelivery:{personId:number,location:{lat:number,lng:number},radius:number}) : Promise<Delivery> {
+    async createDelivery(newDelivery:CreateZoneDto) : Promise<Delivery> {
         const delivery=this.deliveryRepository.create(newDelivery);
         await this.deliveryRepository.save(delivery);
         return delivery
