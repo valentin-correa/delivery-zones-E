@@ -1,14 +1,15 @@
 import { Body, Controller, Get, Param, Put, Query, Post } from '@nestjs/common';
 import { DeliveryService } from './delivery.service';
 import {Delivery} from '../entities/deliveries.entity'
+import { FindByProximityDto } from './dto/updateLocation.dto';
 
 @Controller('delivery')
 export class DeliveryController {
     constructor(private readonly deliveryService: DeliveryService) {}
 
     @Get('findByProximity')
-    async findByProximity(@Query('lat') lat: number,@Query('lng') lng: number,@Query('radius') radius: number):Promise<Delivery[]>{
-        return await this.deliveryService.findByProximity(lat,lng,radius)
+    async findByProximity(@Query() findByProximityDto: FindByProximityDto):Promise<Delivery[]>{
+        return await this.deliveryService.findByProximity(findByProximityDto)
     }
 
     @Get('findByZone')
