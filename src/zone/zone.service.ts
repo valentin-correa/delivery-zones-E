@@ -41,6 +41,14 @@ export class ZoneService {
         
         return { message: "Zone deleted" }
     }
+    async findById(id:number):Promise<Zone>{
+        const zone = await this.repository.findOne({ where: { id } });
+        if (!zone) {
+            throw new NotFoundException(`Zone with id ${id} not found`);
+        }
+        return zone;
+    }
+    
 
     async findZonesById(zoneIds: number[]): Promise<Zone[]> {
          return await this.repository.find(
