@@ -1,15 +1,14 @@
-import { Body, Controller, Get, Param, Put, Query, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Delivery } from '../entities/deliveries.entity';
 import { DeliveryService } from './delivery.service';
-import {Delivery} from '../entities/deliveries.entity'
-import { FindByProximityDto } from './dto/updateLocation.dto';
 
 @Controller('delivery')
 export class DeliveryController {
     constructor(private readonly deliveryService: DeliveryService) {}
 
     @Get('findByProximity')
-    async findByProximity(@Query() findByProximityDto: FindByProximityDto):Promise<Delivery[]>{
-        return await this.deliveryService.findByProximity(findByProximityDto)
+    async findByProximity(@Query('lat') lat: number,@Query('lng') lng: number,@Query('radius') radius: number):Promise<Delivery[]>{
+        return await this.deliveryService.findByProximity(lat,lng,radius)
     }
 
     @Get('findByZone')
@@ -31,5 +30,9 @@ export class DeliveryController {
     async createDelivery(@Body() newDelivery:{personId:number,location:{lat:number,lng:number},radius:number}) : Promise<Delivery>{
         return await this.deliveryService.createDelivery(newDelivery)
     }
-    
+
+    @Delete(':id')
+    async delete(@Param('id') id: number) {
+        return await this.deliveryService.deleteDelivery(id);
+    }
 }

@@ -1,9 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Delivery } from '../entities/deliveries.entity';
 import { Repository } from 'typeorm';
-import { Zone } from '../entities/zones.entity'
-import { FindByProximityDto } from './dto/updateLocation.dto';
+import { Delivery } from '../entities/deliveries.entity';
+import { Zone } from '../entities/zones.entity';
 
 @Injectable()
 export class DeliveryService {
@@ -13,12 +12,11 @@ export class DeliveryService {
     async find():Promise<Delivery[]> {
     return await this.deliveryRepository.find();
     }
-    async findByProximity(proximityInfo: FindByProximityDto):Promise<Delivery[]>{
+    async findByProximity(requestLat:number,requestLng:number, radius:number):Promise<Delivery[]>{
         const deliveries=await this.deliveryRepository.find()
-        const { lat, lng, radius } = proximityInfo
-
-        return deliveries.sort((a, b) => {
-            return this.haversine(a.location.lat, a.location.lng, lat, lng) - this.haversine(b.location.lat, b.location.lng, lat, lng); 
+        return deliveries.filter(a=>this.haversine(a.location.lat, a.location.lng, requestLat, requestLng)<=radius)
+        .sort((a, b) => {
+            return this.haversine(a.location.lat, a.location.lng, requestLat, requestLng) - this.haversine(b.location.lat, b.location.lng, requestLat, requestLng); 
              // Si distancia A es menor, 'a' estará antes que 'b'
         });
         //considerar mejorar la eficiencia llamando a haversine menos veces.
@@ -79,5 +77,16 @@ export class DeliveryService {
         await this.deliveryRepository.save(delivery);
         return delivery
     }
-      
+
+    async deleteDelivery(id: number) {
+        const delivery = await this.deliveryRepository.findOne({ where: { id } });
+    
+        if (!delivery) {
+            throw new Error(`Delivery with id ${id} not found`);
+        }
+    
+        await this.deliveryRepository.softRemove(delivery);
+    
+        return { message: "Delivery deleted" };
+    }
 }
