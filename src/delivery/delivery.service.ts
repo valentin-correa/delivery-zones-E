@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Delivery } from '../entities/deliveries.entity';
 import { Repository } from 'typeorm';
 import { FindByProximityDto } from './dto/updateLocation.dto';
 import { ZoneService } from 'src/zone/zone.service';
 import { CreateZoneDto } from 'src/zone/dto/createZone.dto';
+import { Delivery } from '../entities/deliveries.entity';
+import { Zone } from '../entities/zones.entity';
 
 @Injectable()
 export class DeliveryService {
@@ -78,5 +79,16 @@ export class DeliveryService {
         await this.deliveryRepository.save(delivery);
         return delivery
     }
-      
+
+    async deleteDelivery(id: number) {
+        const delivery = await this.deliveryRepository.findOne({ where: { id } });
+    
+        if (!delivery) {
+            throw new Error(`Delivery with id ${id} not found`);
+        }
+    
+        await this.deliveryRepository.softRemove(delivery);
+    
+        return { message: "Delivery deleted" };
+    }
 }
