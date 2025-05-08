@@ -1,7 +1,7 @@
-import { Body, Controller, Post, Get, Delete, Put, Param } from '@nestjs/common';
-import { ZoneService } from './zone.service';
-import {Zone} from '../entities/zones.entity';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Zone } from '../entities/zones.entity';
 import { CreateZoneDto } from './dto/createZone.dto';
+import { ZoneService } from './zone.service';
 
 
 @Controller('zone')
@@ -21,6 +21,14 @@ export class ZoneController {
     @Delete(':id')
     async remove(@Param('id') id: number){
         return await this.zoneService.deleteZone(id);
+  }
+
+  @Delete(':id/delivery/:deliveryId')
+  removeDeliveryFromZone(
+    @Param('id') zoneId: number,
+    @Param('deliveryId') deliveryId: number,
+  ) {
+    return this.zoneService.removeDeliveryFromZone(zoneId, deliveryId);
   }
 
     @Put(':id')
