@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { FindByProximityDto } from './dto/updateLocation.dto';
+import { FindByProximityDto, UpdateLocationDto } from './dto/updateLocation.dto';
 import { ZoneService } from 'src/zone/zone.service';
-import { CreateZoneDto } from 'src/zone/dto/Zone.dto';
+import { ZoneDto } from 'src/zone/dto/Zone.dto';
 import { Delivery } from '../entities/deliveries.entity';
 import { Zone } from '../entities/zones.entity';
 
@@ -25,12 +25,13 @@ export class DeliveryService {
         });
         //considerar mejorar la eficiencia llamando a haversine menos veces.
     }
-    async updateLocation(id:number,newLocation:{lat:number,lng:number}): Promise<Delivery>{
+    async updateLocation(id:number,newLocation:UpdateLocationDto): Promise<Delivery>{
         const delivery=await this.deliveryRepository.findOne({ where: { id } });
         if (!delivery) {
             throw new NotFoundException(`Delivery with id ${id} not found`);
         }
-        delivery.location=newLocation;
+
+        delivery.location=newLocation.location;
         await this.deliveryRepository.save(delivery);
         return delivery
     }
@@ -74,7 +75,7 @@ export class DeliveryService {
         return delivery;
       }
 
-    async createDelivery(newDelivery:CreateZoneDto) : Promise<Delivery> {
+    async createDelivery(newDelivery:ZoneDto) : Promise<Delivery> {
         const delivery=this.deliveryRepository.create(newDelivery);
         await this.deliveryRepository.save(delivery);
         return delivery
@@ -84,7 +85,7 @@ export class DeliveryService {
         const delivery = await this.deliveryRepository.findOne({ where: { id } });
     
         if (!delivery) {
-            throw new Error(`Delivery with id ${id} not found`);
+            throw new NotFoundException(`Delivery with id ${id} not found`);
         }
     
         await this.deliveryRepository.softRemove(delivery);
