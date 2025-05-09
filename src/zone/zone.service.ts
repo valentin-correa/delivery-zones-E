@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Zone } from '../entities/zones.entity';
-import { CreateZoneDto } from './dto/createZone.dto';
+import { ZoneDto } from './dto/Zone.dto';
 
 @Injectable()
 export class ZoneService {
@@ -11,13 +11,13 @@ export class ZoneService {
     async find():Promise<Zone[]> {
         return await this.repository.find();
     }
-    async create(newZone:CreateZoneDto): Promise<Zone>{
+    async create(newZone:ZoneDto): Promise<Zone>{
         const zone=this.repository.create(newZone);
         await this.repository.save(zone);
         return zone
     }
 
-    async updateZone(id: number, updateZone: {name: string, location: {lat: number, lng: number}, radius: number}): Promise<Zone> {
+    async updateZone(id: number, updateZone: ZoneDto): Promise<Zone> {
         const zone = await this.repository.findOne( {where: {id} });
 
         if (!zone) {

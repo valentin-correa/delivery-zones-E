@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { Zone } from '../entities/zones.entity';
-import { CreateZoneDto } from './dto/createZone.dto';
+import { ZoneDto } from './dto/Zone.dto';
 import { ZoneService } from './zone.service';
 
 
@@ -14,7 +14,7 @@ export class ZoneController {
     }
 
     @Post ()
-    async createZone(@Body() newZone:CreateZoneDto): Promise<Zone>{
+    async createZone(@Body() newZone:ZoneDto): Promise<Zone>{
         return await this.zoneService.create(newZone)
     }
 
@@ -32,7 +32,7 @@ export class ZoneController {
   }
 
     @Put(':id')
-    async updateZone(@Param('id') id: number, @Body() updatedZone : {name: string, location: {lat: number, lng: number}, radius: number}): Promise<Zone> {
+    async updateZone(@Param('id') id: number, @Body() updatedZone : ZoneDto): Promise<Zone> {
         return await this.zoneService.updateZone(id, updatedZone);
     }
 
