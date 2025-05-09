@@ -24,7 +24,7 @@ export class DeliveryController {
     }
 
     @Post(':id/assignZone')
-    async assignZone(@Param('id') id: number, @Body('zoneIds') zoneIds: number[]): Promise<Delivery> {
+    async assignZone(@Param('id') id: number, @Body('zoneIds') zoneIds: number[]): Promise<Delivery> { // Analizar si agregar DTO para una sola propiedad o no
         return await this.deliveryService.assignZone(id, zoneIds);
     }
 

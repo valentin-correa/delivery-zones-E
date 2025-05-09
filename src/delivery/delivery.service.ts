@@ -6,6 +6,7 @@ import { ZoneService } from 'src/zone/zone.service';
 import { ZoneDto } from 'src/zone/dto/Zone.dto';
 import { Delivery } from '../entities/deliveries.entity';
 import { Zone } from '../entities/zones.entity';
+import { CreateDeliveryDto } from './dto/createDelivery.dto';
 
 @Injectable()
 export class DeliveryService {
@@ -75,7 +76,7 @@ export class DeliveryService {
         return delivery;
       }
 
-    async createDelivery(newDelivery:ZoneDto) : Promise<Delivery> {
+    async createDelivery(newDelivery:CreateDeliveryDto) : Promise<Delivery> {
         const delivery=this.deliveryRepository.create(newDelivery);
         await this.deliveryRepository.save(delivery);
         return delivery
