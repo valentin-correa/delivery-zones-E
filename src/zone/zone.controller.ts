@@ -24,10 +24,7 @@ export class ZoneController {
   }
 
   @Delete(':id/delivery/:deliveryId')
-  removeDeliveryFromZone(
-    @Param('id') zoneId: number,
-    @Param('deliveryId') deliveryId: number,
-  ) {
+  removeDeliveryFromZone(@Param('id') zoneId: number,@Param('deliveryId') deliveryId: number) {
     return this.zoneService.removeDeliveryFromZone(zoneId, deliveryId);
   }
 
