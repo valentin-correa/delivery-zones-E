@@ -9,7 +9,7 @@ export class Zone extends BaseEntity {
     @Column()
     name: string;
     
-    @Column('json')
+    @Column('jsonb')
     location: {'lat': number, 'lng': number};
 
     @Column()
