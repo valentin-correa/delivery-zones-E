@@ -12,7 +12,7 @@ export class ZoneController {
     async findAll(): Promise<Zone[]> {
         return this.zoneService.find();
     }
-
+    
     @Post ()
     async createZone(@Body() newZone:ZoneDto): Promise<Zone>{
         return await this.zoneService.create(newZone)
@@ -33,5 +33,8 @@ export class ZoneController {
         return await this.zoneService.updateZone(id, updatedZone);
     }
 
-    
+    @Get('zone/:id')
+    async findById(@Param('id') id:number):Promise<Zone>{
+        return await this.zoneService.findById(id)
+    }
 }
