@@ -9,7 +9,13 @@ export class UpdateLocationDto {
   location: LocationDto;
 }
 
-export class FindByProximityDto extends LocationDto {
+export class FindByProximityDto extends PaginationDto {
+    @IsNumber()
+    lat: number;
+    
+    @IsNumber()
+    lng: number;
+
     @IsNumber()
     radius: number
 }
