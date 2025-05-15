@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { FindByProximityDto, UpdateLocationDto } from './dto/updateLocation.dto';
+import { FindByProximityDto, UpdateLocationDto } from './dto/delivery.dto';
 import { ZoneService } from 'src/zone/zone.service';
-import { ZoneDto } from 'src/zone/dto/Zone.dto';
+import { ZoneDto } from 'src/zone/dto/zone.dto';
 import { Delivery } from '../entities/deliveries.entity';
 import { Zone } from '../entities/zones.entity';
 import { CreateDeliveryDto } from './dto/createDelivery.dto';

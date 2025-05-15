@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Put, Query, Post, Delete } from '@nestjs/common';
 import { DeliveryService } from './delivery.service';
 import {Delivery} from '../entities/deliveries.entity'
-import { FindByProximityDto, UpdateLocationDto } from './dto/updateLocation.dto';
+import { FindByProximityDto, UpdateLocationDto } from './dto/delivery.dto';
 import { CreateDeliveryDto } from './dto/createDelivery.dto';
 
 @Controller('delivery')

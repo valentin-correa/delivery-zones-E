@@ -23,3 +23,15 @@ export class UpdateDeliveryStatusDto {
   @IsString()
   status: string;
 }
+
+export class CreateDeliveryDto {
+  @IsNumber()
+  personId: number;
+
+  @ValidateNested()
+  @Type(() => LocationDto)
+  location: LocationDto;
+
+  @IsNumber()
+  radius: number;
+}

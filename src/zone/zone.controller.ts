@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
 import { Zone } from '../entities/zones.entity';
-import { PartialUpdateZoneDto, ZoneDto } from './dto/Zone.dto';
+import { PartialUpdateZoneDto, ZoneDto } from './dto/zone.dto';
 import { ZoneService } from './zone.service';
 
 
