@@ -1,6 +1,6 @@
 // src/zone/dto/zone.dto.ts
 import { LocationDto } from '../../common/dto/location.dto';
-import { IsString, IsNumber, ValidateNested } from 'class-validator';
+import { IsString, IsNumber, ValidateNested, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class ZoneDto {
@@ -13,4 +13,18 @@ export class ZoneDto {
 
   @IsNumber()
   radius: number;
+}
+export class PartialUpdateZoneDto {
+    @IsOptional()
+    @IsString()
+    name?: string;
+
+    @IsOptional()
+    @IsNumber()
+    radius?: number;
+
+    @IsOptional()
+    @ValidateNested()
+    @Type(() => LocationDto)
+    location?: LocationDto;
 }

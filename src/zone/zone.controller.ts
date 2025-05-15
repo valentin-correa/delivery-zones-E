@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
 import { Zone } from '../entities/zones.entity';
-import { ZoneDto } from './dto/Zone.dto';
+import { PartialUpdateZoneDto, ZoneDto } from './dto/Zone.dto';
 import { ZoneService } from './zone.service';
 
 
@@ -36,5 +36,12 @@ export class ZoneController {
     @Get(':id')
     async findById(@Param('id') id:number):Promise<Zone>{
         return await this.zoneService.findById(id)
+    }
+    @Patch(':id')
+    async partialUpdate(
+        @Param('id') id: number,
+        @Body() updateData: PartialUpdateZoneDto
+    ): Promise<Zone> {
+        return this.zoneService.partialUpdate(id, updateData);
     }
 }
