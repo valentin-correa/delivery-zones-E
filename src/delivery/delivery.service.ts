@@ -6,7 +6,7 @@ import { ZoneService } from 'src/zone/zone.service';
 import { ZoneDto } from 'src/zone/dto/zone.dto';
 import { Delivery } from '../entities/deliveries.entity';
 import { Zone } from '../entities/zones.entity';
-import { CreateDeliveryDto } from './dto/createDelivery.dto';
+import { CreateDeliveryDto } from './dto/delivery.dto';
 
 @Injectable()
 export class DeliveryService {
