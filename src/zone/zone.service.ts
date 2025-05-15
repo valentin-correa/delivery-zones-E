@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Zone } from '../entities/zones.entity';
-import { ZoneDto } from './dto/Zone.dto';
+import { PartialUpdateZoneDto, ZoneDto } from './dto/Zone.dto';
 
 @Injectable()
 export class ZoneService {
@@ -72,5 +72,16 @@ export class ZoneService {
       
         return { message: "Zone removed from delivery" };
       }
+    async partialUpdate(id: number, updateData: PartialUpdateZoneDto): Promise<Zone> {
+    const zone = await this.repository.findOne({ where: { id } });
+
+    if (!zone) {
+        throw new NotFoundException(`Zone with id ${id} not found`);
+    }
+
+    Object.assign(zone, updateData);
+
+    return this.repository.save(zone);
+}
 
 }
