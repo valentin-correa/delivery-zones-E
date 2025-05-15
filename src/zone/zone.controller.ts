@@ -21,12 +21,12 @@ export class ZoneController {
     @Delete(':id')
     async remove(@Param('id') id: number){
         return await this.zoneService.deleteZone(id);
-  }
+    }
 
-  @Delete(':id/delivery/:deliveryId')
-  removeDeliveryFromZone(@Param('id') zoneId: number,@Param('deliveryId') deliveryId: number) {
-    return this.zoneService.removeDeliveryFromZone(zoneId, deliveryId);
-  }
+    @Delete(':id/delivery/:deliveryId')
+    removeDeliveryFromZone(@Param('id') zoneId: number,@Param('deliveryId') deliveryId: number) {
+        return this.zoneService.removeDeliveryFromZone(zoneId, deliveryId);
+    }
 
     @Put(':id')
     async updateZone(@Param('id') id: number, @Body() updatedZone : ZoneDto): Promise<Zone> {
@@ -38,10 +38,7 @@ export class ZoneController {
         return await this.zoneService.findById(id)
     }
     @Patch(':id')
-    async partialUpdate(
-        @Param('id') id: number,
-        @Body() updateData: PartialUpdateZoneDto
-    ): Promise<Zone> {
+    async partialUpdate(@Param('id') id: number,@Body() updateData: PartialUpdateZoneDto): Promise<Zone> {
         return this.zoneService.partialUpdate(id, updateData);
     }
 }
