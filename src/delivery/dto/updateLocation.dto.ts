@@ -1,4 +1,4 @@
-import { IsNumber, ValidateNested } from 'class-validator';
+import { IsNumber, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { LocationDto } from '../../common/dto/location.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
@@ -18,4 +18,8 @@ export class FindByProximityDto extends PaginationDto {
 
     @IsNumber()
     radius: number
+}
+export class UpdateDeliveryStatusDto {
+  @IsString()
+  status: string;
 }
