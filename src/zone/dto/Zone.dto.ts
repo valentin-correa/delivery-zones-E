@@ -1,5 +1,5 @@
 // src/zone/dto/zone.dto.ts
-import { LocationDto } from '../../common/dto/location.dto';
+import { LocationDto } from '../../common/dto/common.dto';
 import { IsString, IsNumber, ValidateNested, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 

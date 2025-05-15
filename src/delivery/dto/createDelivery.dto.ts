@@ -1,6 +1,6 @@
 import { IsNumber, IsObject, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { LocationDto } from 'src/common/dto/location.dto';
+import { LocationDto } from 'src/common/dto/common.dto';
 
 export class CreateDeliveryDto {
   @IsNumber()

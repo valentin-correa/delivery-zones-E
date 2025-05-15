@@ -1,3 +1,4 @@
+import { IsNumber } from 'class-validator';
 import { IsOptional, IsPositive, Min } from 'class-validator';
 
 export class PaginationDto {
@@ -10,3 +11,10 @@ export class PaginationDto {
   quantity?: number;
 }
 
+export class LocationDto {
+  @IsNumber()
+  lat: number;
+
+  @IsNumber()
+  lng: number;
+}
