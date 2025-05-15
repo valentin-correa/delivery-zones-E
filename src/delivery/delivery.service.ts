@@ -6,7 +6,7 @@ import { ZoneService } from 'src/zone/zone.service';
 import { ZoneDto } from 'src/zone/dto/zone.dto';
 import { Delivery } from '../entities/deliveries.entity';
 import { Zone } from '../entities/zones.entity';
-import { CreateDeliveryDto } from './dto/createDelivery.dto';
+import { CreateDeliveryDto } from './dto/delivery.dto';
 
 @Injectable()
 export class DeliveryService {
@@ -102,4 +102,20 @@ export class DeliveryService {
         const offset=(page-1)*quantity;
         return deliveries.slice(offset,offset+quantity)
     }
+    async removeZoneFromDelivery(deliveryId: number, zoneId: number) {
+        const delivery = await this.deliveryRepository.findOne({
+          where: { id: deliveryId },
+          relations: ['zones'],
+        });
+      
+        if (!delivery) throw new NotFoundException(`Delivery with id ${deliveryId} not found`);
+      
+        if (!delivery.zones.some(zone => zone.id === zoneId)) throw new Error(`Delivery ${deliveryId} is not associated with zone ${zoneId}`);
+
+         delivery.zones = delivery.zones.filter(zone => zone.id !== zoneId);
+      
+        await this.deliveryRepository.save(delivery);
+      
+        return { message: "Zone removed from delivery" };
+      }
 }

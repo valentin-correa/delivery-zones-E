@@ -32,9 +32,16 @@ export class DeliveryController {
     async createDelivery(@Body() newDelivery:CreateDeliveryDto) : Promise<Delivery>{
         return await this.deliveryService.createDelivery(newDelivery)
     }
+
     @Delete(':id')
     async deleteDelivery(@Param('id') id:number):Promise<{ message: string }>{
-        return this.deliveryService.deleteDelivery(id)
+        return await this.deliveryService.deleteDelivery(id)
+    }
+
+    //DELETE /delivery/:id/zone/:zoneId
+    @Delete(':id/zone/:zoneId')
+    async removeZoneFromDelivery(@Param('id') deliveryId: number,@Param('zoneId') zoneId: number) {
+        return await this.deliveryService.removeZoneFromDelivery(zoneId, deliveryId);
     }
     
 }
