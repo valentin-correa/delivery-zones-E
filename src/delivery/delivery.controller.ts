@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put, Query, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, Query, Post, Delete } from '@nestjs/common';
 import { DeliveryService } from './delivery.service';
 import {Delivery} from '../entities/deliveries.entity'
 import { FindByProximityDto, UpdateLocationDto } from './dto/updateLocation.dto';
@@ -31,6 +31,10 @@ export class DeliveryController {
     @Post()
     async createDelivery(@Body() newDelivery:CreateDeliveryDto) : Promise<Delivery>{
         return await this.deliveryService.createDelivery(newDelivery)
+    }
+    @Delete(':id')
+    async deleteDelivery(@Param('id') id:number):Promise<{ message: string }>{
+        return this.deliveryService.deleteDelivery(id)
     }
     
 }

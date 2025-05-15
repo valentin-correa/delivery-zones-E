@@ -33,7 +33,7 @@ export class ZoneController {
         return await this.zoneService.updateZone(id, updatedZone);
     }
 
-    @Get('zone/:id')
+    @Get(':id')
     async findById(@Param('id') id:number):Promise<Zone>{
         return await this.zoneService.findById(id)
     }

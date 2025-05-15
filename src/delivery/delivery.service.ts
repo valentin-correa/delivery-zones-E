@@ -20,11 +20,16 @@ export class DeliveryService {
         const deliveries=await this.deliveryRepository.find()
         const { lat, lng, radius } = proximityInfo
 
-        return deliveries.sort((a, b) => {
+        const sortedDeliveries= deliveries.sort((a, b) => {
             return this.haversine(a.location.lat, a.location.lng, lat, lng) - this.haversine(b.location.lat, b.location.lng, lat, lng); 
              // Si distancia A es menor, 'a' estará antes que 'b'
         });
         //considerar mejorar la eficiencia llamando a haversine menos veces.
+        if (proximityInfo.page==null||proximityInfo.quantity==null){
+            return sortedDeliveries
+        }else{
+            return this.manualPagination(sortedDeliveries,proximityInfo.page,proximityInfo.quantity)
+        }
     }
     async updateLocation(id:number,newLocation:UpdateLocationDto): Promise<Delivery>{
         const delivery=await this.deliveryRepository.findOne({ where: { id } });
@@ -58,7 +63,7 @@ export class DeliveryService {
 
     async findByZone(id:number):Promise<Delivery[]>{
         const deliveries = await this.deliveryRepository.find({relations: ['zones'],});//.find({relations: ['zones'],}) trae la relacion zones
-        return deliveries.filter(d=> d.zones.some(z=>z.id===id))
+        return deliveries.filter(d=> d.zones.some(z=>z.id===id));
     }
 
     async assignZone(id: number, zoneIds: number[]): Promise<Delivery> {
@@ -92,5 +97,9 @@ export class DeliveryService {
         await this.deliveryRepository.softRemove(delivery);
     
         return { message: "Delivery deleted" };
+    }
+    manualPagination( deliveries:Delivery[],page:number,quantity:number) {
+        const offset=(page-1)*quantity;
+        return deliveries.slice(offset,offset+quantity)
     }
 }
