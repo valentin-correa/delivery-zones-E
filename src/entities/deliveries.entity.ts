@@ -18,7 +18,7 @@ export class Delivery extends BaseEntity{
     @Column()
     radius: number;
 
-    @Column({ type: "text", nullable: true })
+    @Column({ type: "text", nullable: true, default: 'available' })
     status: string | null;
     
     @ManyToMany(() => Zone, zone => zone.deliveries)
