@@ -118,4 +118,12 @@ export class DeliveryService {
       
         return { message: "Zone removed from delivery" };
       }
+    async findZonesByDeliveryId(id: number): Promise<Zone[]> {
+        const delivery = await this.deliveryRepository.findOne({ where : {id}})
+        if (!delivery) {
+            throw new NotFoundException(`Delivery with id ${id} not found`);
+        }
+        return delivery.zones
+
+    }
 }
