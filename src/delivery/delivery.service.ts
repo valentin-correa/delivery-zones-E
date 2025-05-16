@@ -7,6 +7,8 @@ import { ZoneDto } from 'src/zone/dto/zone.dto';
 import { Delivery } from '../entities/deliveries.entity';
 import { Zone } from '../entities/zones.entity';
 import { CreateDeliveryDto, AssignZoneDto } from './dto/delivery.dto';
+import { PaginationDto } from 'src/common/dto/common.dto';
+import { skip } from 'node:test';
 
 @Injectable()
 export class DeliveryService {
@@ -14,7 +16,7 @@ export class DeliveryService {
                 private readonly zoneService: ZoneService
             ) {}
     async find():Promise<Delivery[]> {
-    return await this.deliveryRepository.find();
+        return await this.deliveryRepository.find();
     }
     async findByProximity(proximityInfo: FindByProximityDto):Promise<Delivery[]>{
         const deliveries=await this.deliveryRepository.find()
@@ -24,12 +26,7 @@ export class DeliveryService {
             return this.haversine(a.location.lat, a.location.lng, lat, lng) - this.haversine(b.location.lat, b.location.lng, lat, lng); 
              // Si distancia A es menor, 'a' estará antes que 'b'
         });
-        //considerar mejorar la eficiencia llamando a haversine menos veces.
-        if (proximityInfo.page==null||proximityInfo.quantity==null){
-            return sortedDeliveries
-        }else{
             return this.manualPagination(sortedDeliveries,proximityInfo.page,proximityInfo.quantity)
-        }
     }
     async updateLocation(id:number,newLocation:UpdateLocationDto): Promise<Delivery>{
         const delivery=await this.deliveryRepository.findOne({ where: { id } });
@@ -63,7 +60,8 @@ export class DeliveryService {
 
     async findByZone(zoneId:FindByZoneDTO):Promise<Delivery[]>{
         const deliveries = await this.deliveryRepository.find({relations: ['zones'],});//.find({relations: ['zones'],}) trae la relacion zones
-        return deliveries.filter(d=> d.zones.some(z=>z.id===zoneId.zoneId));
+        const deliveriesWithThatZone = deliveries.filter(d=> d.zones.some(z=>z.id===zoneId.zoneId));
+        return this.manualPagination(deliveriesWithThatZone, zoneId.page, zoneId.quantity) 
     }
 
     async assignZone(id: number, assignZoneDto: AssignZoneDto): Promise<Delivery> {
@@ -112,33 +110,33 @@ export class DeliveryService {
     
         return { message: "Delivery deleted" };
     }
-    manualPagination( deliveries:Delivery[],page:number,quantity:number) {
-        const offset=(page-1)*quantity;
-        return deliveries.slice(offset,offset+quantity)
-    }
     async removeZoneFromDelivery(deliveryId: number, zoneId: number) {
         const delivery = await this.deliveryRepository.findOne({
-          where: { id: deliveryId },
-          relations: ['zones'],
+            where: { id: deliveryId },
+            relations: ['zones'],
         });
-      
+        
         if (!delivery) throw new NotFoundException(`Delivery with id ${deliveryId} not found`);
-      
+        
         if (!delivery.zones.some(zone => zone.id === zoneId)) throw new Error(`Delivery ${deliveryId} is not associated with zone ${zoneId}`);
-
-         delivery.zones = delivery.zones.filter(zone => zone.id !== zoneId);
-      
+        
+        delivery.zones = delivery.zones.filter(zone => zone.id !== zoneId);
+        
         await this.deliveryRepository.save(delivery);
-      
+        
         return { message: "Zone removed from delivery" };
-      }
-    async findZonesByDeliveryId(id: number): Promise<Zone[]> {
-        const delivery = await this.deliveryRepository.findOne({ where : {id}, relations: ['zones']})
+    }
+    async findZonesByDeliveryId(id: number, pagination: PaginationDto): Promise<Zone[]> {
+        const delivery = await this.deliveryRepository.exists({ where : {id}})
         if (!delivery) {
             throw new NotFoundException(`Delivery with id ${id} not found`);
         }
+        
+        return this.zoneService.findZonesByDeliveryId(id, pagination);
 
-        return delivery.zones
-
+    }
+    manualPagination<T>( query: T[],page:number,quantity:number): T[] {
+        const offset=(page-1)*quantity;
+        return query.slice(offset,offset+quantity)
     }
 }

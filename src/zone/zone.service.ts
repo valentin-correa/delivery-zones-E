@@ -73,6 +73,11 @@ export class ZoneService {
     return this.repository.save(zone);
 }
 
+    async findZonesByDeliveryId(deliveryId: number, pagination: PaginationDto): Promise<Zone[]> {
+        const offset = this.calculateOffset(pagination.page, pagination.quantity)
+        return await this.repository.find({ where: { deliveries: {id: deliveryId}}, skip: offset, take: pagination.quantity})
+    }
+
     calculateOffset(page: number, quantity: number): number{
         return (page-1)*quantity
     }

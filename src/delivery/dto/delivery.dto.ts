@@ -46,7 +46,7 @@ export class CreateDeliveryDto {
   radius: number;
 }
 
-export class FindByZoneDTO {
+export class FindByZoneDTO extends PaginationDto{
     @IsNumber()
     @Type(() => Number)
     zoneId: number;

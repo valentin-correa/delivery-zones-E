@@ -4,6 +4,7 @@ import {Delivery} from '../entities/deliveries.entity'
 import { FindByProximityDto, FindByZoneDTO, UpdateDeliveryStatusDto, UpdateLocationDto } from './dto/delivery.dto';
 import { CreateDeliveryDto, AssignZoneDto } from './dto/delivery.dto';
 import { Zone } from 'src/entities/zones.entity';
+import { PaginationDto } from 'src/common/dto/common.dto';
 
 @Controller('delivery')
 export class DeliveryController {
@@ -45,8 +46,8 @@ export class DeliveryController {
     }
     
     @Get(':id/zones') // GET /delivery/:id/zones
-    async getZonesByDelivery(@Param('id') id: number,) : Promise<Zone[]>{
-      return this.deliveryService.findZonesByDeliveryId(id);
+    async getZonesByDelivery(@Param('id') id: number,@Query() pagination: PaginationDto) : Promise<Zone[]>{
+      return this.deliveryService.findZonesByDeliveryId(id, pagination);
     }
     @Put(':id/status') // PUT /delivery/:id/status
     async updateStatus(@Param(':id') id: number, @Body() updatedStatus: UpdateDeliveryStatusDto): Promise<Delivery> {
