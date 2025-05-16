@@ -42,3 +42,8 @@ export class CreateDeliveryDto {
   @IsNumber()
   radius: number;
 }
+
+export class FindByZoneDTO {
+    @IsNumber()
+    zoneId: number
+}

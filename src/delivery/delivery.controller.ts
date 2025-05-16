@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Put, Query, Post, Delete } from '@nestjs/common';
 import { DeliveryService } from './delivery.service';
 import {Delivery} from '../entities/deliveries.entity'
-import { FindByProximityDto, UpdateDeliveryStatusDto, UpdateLocationDto } from './dto/delivery.dto';
+import { FindByProximityDto, FindByZoneDTO, UpdateDeliveryStatusDto, UpdateLocationDto } from './dto/delivery.dto';
 import { CreateDeliveryDto, AssignZoneDto } from './dto/delivery.dto';
 import { Zone } from 'src/entities/zones.entity';
 
@@ -15,7 +15,7 @@ export class DeliveryController {
     }
 
     @Get('findByZone') // GET /delivery/findByZone
-    async findByZone(@Query('zoneId') zoneId: number):Promise<Delivery[]>{
+    async findByZone(@Query() zoneId: FindByZoneDTO):Promise<Delivery[]>{
         return await this.deliveryService.findByZone(zoneId);
     }
 

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { FindByProximityDto, UpdateDeliveryStatusDto, UpdateLocationDto } from './dto/delivery.dto';
+import { FindByProximityDto, FindByZoneDTO, UpdateDeliveryStatusDto, UpdateLocationDto } from './dto/delivery.dto';
 import { ZoneService } from 'src/zone/zone.service';
 import { ZoneDto } from 'src/zone/dto/zone.dto';
 import { Delivery } from '../entities/deliveries.entity';
@@ -61,9 +61,9 @@ export class DeliveryService {
         return distance;
       }
 
-    async findByZone(id:number):Promise<Delivery[]>{
+    async findByZone(zoneId:FindByZoneDTO):Promise<Delivery[]>{
         const deliveries = await this.deliveryRepository.find({relations: ['zones'],});//.find({relations: ['zones'],}) trae la relacion zones
-        return deliveries.filter(d=> d.zones.some(z=>z.id===id));
+        return deliveries.filter(d=> d.zones.some(z=>z.id===zoneId.zoneId));
     }
 
     async assignZone(id: number, assignZoneDto: AssignZoneDto): Promise<Delivery> {
