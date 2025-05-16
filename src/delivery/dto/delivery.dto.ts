@@ -1,4 +1,4 @@
-import { IsNumber, IsString, ValidateNested } from 'class-validator';
+import { IsNumber, IsString, ValidateNested, IsArray } from 'class-validator';
 import { Type } from 'class-transformer';
 import { LocationDto } from '../../common/dto/common.dto';
 import { PaginationDto } from 'src/common/dto/common.dto';
@@ -22,6 +22,13 @@ export class FindByProximityDto extends PaginationDto {
 export class UpdateDeliveryStatusDto {
   @IsString()
   status: string;
+}
+
+export class AssignZoneDto {
+    @IsArray()
+    @Type(() => Number)
+    @IsNumber({}, { each: true })
+    zoneIds: number[];
 }
 
 export class CreateDeliveryDto {

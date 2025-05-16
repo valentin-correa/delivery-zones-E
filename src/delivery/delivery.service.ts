@@ -6,7 +6,7 @@ import { ZoneService } from 'src/zone/zone.service';
 import { ZoneDto } from 'src/zone/dto/zone.dto';
 import { Delivery } from '../entities/deliveries.entity';
 import { Zone } from '../entities/zones.entity';
-import { CreateDeliveryDto } from './dto/delivery.dto';
+import { CreateDeliveryDto, AssignZoneDto } from './dto/delivery.dto';
 
 @Injectable()
 export class DeliveryService {
@@ -66,14 +66,14 @@ export class DeliveryService {
         return deliveries.filter(d=> d.zones.some(z=>z.id===id));
     }
 
-    async assignZone(id: number, zoneIds: number[]): Promise<Delivery> {
+    async assignZone(id: number, assignZoneDto: AssignZoneDto): Promise<Delivery> {
         const delivery = await this.deliveryRepository.findOne({where: {id} })
 
         if (!delivery) { throw new NotFoundException(`Delivery with id ${id} not found`)}
 
-        const zones = await this.zoneService.findZonesById(zoneIds);
+        const zones = await this.zoneService.findZonesById(assignZoneDto.zoneIds);
 
-        if (zones.length !== zoneIds.length) { throw new NotFoundException(`One or more zones with provided IDs do not exist`)}
+        if (zones.length !== assignZoneDto.zoneIds.length) { throw new NotFoundException(`One or more zones with provided IDs do not exist`)}
 
         delivery.zones = zones;
         await this.deliveryRepository.save(delivery);

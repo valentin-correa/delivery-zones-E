@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Put, Query, Post, Delete } from '@nestjs/
 import { DeliveryService } from './delivery.service';
 import {Delivery} from '../entities/deliveries.entity'
 import { FindByProximityDto, UpdateDeliveryStatusDto, UpdateLocationDto } from './dto/delivery.dto';
-import { CreateDeliveryDto } from './dto/delivery.dto';
+import { CreateDeliveryDto, AssignZoneDto } from './dto/delivery.dto';
 import { Zone } from 'src/entities/zones.entity';
 
 @Controller('delivery')
@@ -25,8 +25,8 @@ export class DeliveryController {
     }
 
     @Post(':id/assignZone') // POST /delivery/:id/assignZone
-    async assignZone(@Param('id') id: number, @Body('zoneIds') zoneIds: number[]): Promise<Delivery> { // Analizar si agregar DTO para una sola propiedad o no
-        return await this.deliveryService.assignZone(id, zoneIds);
+    async assignZone(@Param('id') id: number, @Body() assignZoneDto: AssignZoneDto): Promise<Delivery> {
+        return await this.deliveryService.assignZone(id, assignZoneDto.zoneIds);
     }
 
     @Post() // POST /delivery
