@@ -49,7 +49,7 @@ export class DeliveryController {
       return this.deliveryService.findZonesByDeliveryId(id);
     }
     @Put(':id/status') // PUT /delivery/:id/status
-    async updateStatus(@Param(':id') id: number, @Body('status') updatedStatus: UpdateDeliveryStatusDto): Promise<Delivery> {
+    async updateStatus(@Param(':id') id: number, @Body() updatedStatus: UpdateDeliveryStatusDto): Promise<Delivery> {
         return await this.deliveryService.updateStatus(id, updatedStatus);
     }
 }

@@ -94,6 +94,7 @@ export class DeliveryService {
         if (!delivery) { throw new NotFoundException(`Delivery with id ${id} not found`)}
 
         delivery.status = updateStatus.status;
+        console.log(updateStatus)
 
         await this.deliveryRepository.save(delivery)
         
