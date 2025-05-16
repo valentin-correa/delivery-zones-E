@@ -45,5 +45,6 @@ export class CreateDeliveryDto {
 
 export class FindByZoneDTO {
     @IsNumber()
-    zoneId: number
+    @Type(() => Number)
+    zoneId: number;
 }
