@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@
 import { Zone } from '../entities/zones.entity';
 import { PartialUpdateZoneDto, ZoneDto } from './dto/zone.dto';
 import { ZoneService } from './zone.service';
+import { PaginationDto } from 'src/common/dto/common.dto';
 
 
 @Controller('zone')
@@ -9,8 +10,8 @@ export class ZoneController {
     constructor(private readonly zoneService: ZoneService) {}
 
     @Get() // GET /zone
-    async findAll(): Promise<Zone[]> {
-        return this.zoneService.find();
+    async findAll(@Query() pagination: PaginationDto): Promise<Zone[]> {
+        return this.zoneService.find(pagination);
     }
     
     @Post () // POST /zone

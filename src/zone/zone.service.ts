@@ -3,13 +3,19 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Zone } from '../entities/zones.entity';
 import { PartialUpdateZoneDto, ZoneDto } from './dto/zone.dto';
+import { PaginationDto } from 'src/common/dto/common.dto';
+import { take } from 'rxjs';
 
 @Injectable()
 export class ZoneService {
   constructor(@InjectRepository(Zone) private repository: Repository<Zone>) { }
   
-    async find():Promise<Zone[]> {
-        return await this.repository.find();
+    async find(pagination: PaginationDto):Promise<Zone[]> {
+        const offset = this.calculateOffset(pagination.page, pagination.quantity)
+        return await this.repository.find({
+            skip: offset,
+            take: pagination.quantity
+    });
     }
     async create(newZone:ZoneDto): Promise<Zone>{
         const zone=this.repository.create(newZone);
@@ -50,9 +56,10 @@ export class ZoneService {
     
 
     async findZonesById(zoneIds: number[]): Promise<Zone[]> {
-         return await this.repository.find(
-            {where: zoneIds.map(zoneId => ({ id: zoneId })) }
-    )}
+        return await this.repository.find(
+            {where: zoneIds.map(zoneId => ({ id: zoneId }))}
+        )
+        }
 
     async partialUpdate(id: number, updateData: PartialUpdateZoneDto): Promise<Zone> {
     const zone = await this.repository.findOne({ where: { id } });
@@ -66,4 +73,7 @@ export class ZoneService {
     return this.repository.save(zone);
 }
 
+    calculateOffset(page: number, quantity: number): number{
+        return (page-1)*quantity
+    }
 }
