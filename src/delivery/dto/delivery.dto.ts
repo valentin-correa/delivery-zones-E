@@ -11,12 +11,15 @@ export class UpdateLocationDto {
 
 export class FindByProximityDto extends PaginationDto {
     @IsNumber()
+    @Type(() => Number)
     lat: number;
     
     @IsNumber()
+    @Type(() => Number)
     lng: number;
 
     @IsNumber()
+    @Type(() => Number)
     radius: number
 }
 export class UpdateDeliveryStatusDto {
