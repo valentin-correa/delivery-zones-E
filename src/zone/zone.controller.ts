@@ -8,36 +8,31 @@ import { ZoneService } from './zone.service';
 export class ZoneController {
     constructor(private readonly zoneService: ZoneService) {}
 
-    @Get()
+    @Get() // GET /zone
     async findAll(): Promise<Zone[]> {
         return this.zoneService.find();
     }
     
-    @Post ()
+    @Post () // POST /zone
     async createZone(@Body() newZone:ZoneDto): Promise<Zone>{
         return await this.zoneService.create(newZone)
     }
 
-    @Delete(':id')
+    @Delete(':id') // DELETE /zone/:id
     async remove(@Param('id') id: number){
         return await this.zoneService.deleteZone(id);
     }
 
-    @Delete(':id/delivery/:deliveryId')
-    removeDeliveryFromZone(@Param('id') zoneId: number,@Param('deliveryId') deliveryId: number) {
-        return this.zoneService.removeDeliveryFromZone(zoneId, deliveryId);
-    }
-
-    @Put(':id')
+    @Put(':id') // PUT /zone/:id
     async updateZone(@Param('id') id: number, @Body() updatedZone : ZoneDto): Promise<Zone> {
         return await this.zoneService.updateZone(id, updatedZone);
     }
 
-    @Get(':id')
+    @Get(':id') // GET /zone/:id
     async findById(@Param('id') id:number):Promise<Zone>{
         return await this.zoneService.findById(id)
     }
-    @Patch(':id')
+    @Patch(':id') // PATCH /zone/:id
     async partialUpdate(@Param('id') id: number,@Body() updateData: PartialUpdateZoneDto): Promise<Zone> {
         return this.zoneService.partialUpdate(id, updateData);
     }

@@ -9,47 +9,46 @@ import { Zone } from 'src/entities/zones.entity';
 export class DeliveryController {
     constructor(private readonly deliveryService: DeliveryService) {}
 
-    @Get('findByProximity')
+    @Get('findByProximity') // GET /delivery/findByProximity
     async findByProximity(@Query() findByProximityDto: FindByProximityDto):Promise<Delivery[]>{
         return await this.deliveryService.findByProximity(findByProximityDto)
     }
 
-    @Get('findByZone')
+    @Get('findByZone') // GET /delivery/findByZone
     async findByZone(@Query('zoneId') zoneId: number):Promise<Delivery[]>{
         return await this.deliveryService.findByZone(zoneId);
     }
 
-    @Put(':id/location')
+    @Put(':id/location') // PUT /delivery/:id/location
     async updateLocation(@Param('id') id: number, @Body() updateLocationDto: UpdateLocationDto): Promise<Delivery> {
         return await this.deliveryService.updateLocation(id, updateLocationDto);
     }
 
-    @Post(':id/assignZone')
+    @Post(':id/assignZone') // POST /delivery/:id/assignZone
     async assignZone(@Param('id') id: number, @Body('zoneIds') zoneIds: number[]): Promise<Delivery> { // Analizar si agregar DTO para una sola propiedad o no
         return await this.deliveryService.assignZone(id, zoneIds);
     }
 
-    @Post()
+    @Post() // POST /delivery
     async createDelivery(@Body() newDelivery:CreateDeliveryDto) : Promise<Delivery>{
         return await this.deliveryService.createDelivery(newDelivery)
     }
 
-    @Delete(':id')
+    @Delete(':id') // DELETE /delivery/:id
     async deleteDelivery(@Param('id') id:number):Promise<{ message: string }>{
         return await this.deliveryService.deleteDelivery(id)
     }
 
-    //DELETE /delivery/:id/zone/:zoneId
-    @Delete(':id/zone/:zoneId')
+    @Delete(':id/zone/:zoneId') // DELETE /delivery/:id/zone/:zoneId
     async removeZoneFromDelivery(@Param('id') deliveryId: number,@Param('zoneId') zoneId: number) {
         return await this.deliveryService.removeZoneFromDelivery(zoneId, deliveryId);
     }
     
-    @Get(':id/zones')
+    @Get(':id/zones') // GET /delivery/:id/zones
     async getZonesByDelivery(@Param('id') id: number,) : Promise<Zone[]>{
       return this.deliveryService.findZonesByDeliveryId(id);
     }
-    @Put(':id/status')
+    @Put(':id/status') // PUT /delivery/:id/status
     async updateStatus(@Param(':id') id: number, @Body('status') updatedStatus: UpdateDeliveryStatusDto): Promise<Delivery> {
         return await this.deliveryService.updateStatus(id, updatedStatus);
     }

@@ -54,24 +54,6 @@ export class ZoneService {
             {where: zoneIds.map(zoneId => ({ id: zoneId })) }
     )}
 
-    async removeDeliveryFromZone(zoneId: number, deliveryId: number) {
-        const zone = await this.repository.findOne({
-          where: { id: zoneId },
-          relations: ['deliveries'],
-        });
-      
-        if (!zone) throw new NotFoundException(`Zone with id ${zoneId} not found`);
-      
-        if (!zone.deliveries.some(delivery => delivery.id === deliveryId)) {
-            throw new Error(`Delivery ${deliveryId} is not associated with zone ${zoneId}`);
-          }
-
-        zone.deliveries = zone.deliveries.filter(delivery => delivery.id !== deliveryId);
-      
-        await this.repository.save(zone);
-      
-        return { message: "Zone removed from delivery" };
-      }
     async partialUpdate(id: number, updateData: PartialUpdateZoneDto): Promise<Zone> {
     const zone = await this.repository.findOne({ where: { id } });
 
