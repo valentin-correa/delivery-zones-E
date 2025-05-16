@@ -38,10 +38,7 @@ export class ZoneController {
         return await this.zoneService.findById(id)
     }
     @Patch(':id')
-    async partialUpdate(
-        @Param('id') id: number,
-        @Body() updateData: PartialUpdateZoneDto
-    ): Promise<Zone> {
+    async partialUpdate(@Param('id') id: number,@Body() updateData: PartialUpdateZoneDto): Promise<Zone> {
         return this.zoneService.partialUpdate(id, updateData);
     }
 }

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { FindByProximityDto, UpdateLocationDto } from './dto/delivery.dto';
+import { FindByProximityDto, UpdateDeliveryStatusDto, UpdateLocationDto } from './dto/delivery.dto';
 import { ZoneService } from 'src/zone/zone.service';
 import { ZoneDto } from 'src/zone/dto/zone.dto';
 import { Delivery } from '../entities/deliveries.entity';
@@ -84,6 +84,19 @@ export class DeliveryService {
     async createDelivery(newDelivery:CreateDeliveryDto) : Promise<Delivery> {
         const delivery=this.deliveryRepository.create(newDelivery);
         await this.deliveryRepository.save(delivery);
+        return delivery
+    }
+
+    async updateStatus(id: number, updateStatus: UpdateDeliveryStatusDto): Promise<Delivery> {
+
+        const delivery = await this.deliveryRepository.findOne({ where: {id} })
+
+        if (!delivery) { throw new NotFoundException(`Delivery with id ${id} not found`)}
+
+        delivery.status = updateStatus.status;
+
+        await this.deliveryRepository.save(delivery)
+        
         return delivery
     }
 
