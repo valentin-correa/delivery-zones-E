@@ -107,7 +107,7 @@ export class DeliveryService {
             throw new NotFoundException(`Delivery with id ${id} not found`);
         }
     
-        await this.deliveryRepository.softRemove(delivery);
+        await this.deliveryRepository.remove(delivery);
     
         return { message: "Delivery deleted" };
     }

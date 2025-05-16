@@ -34,7 +34,7 @@ export class ZoneService {
         const zone = await this.repository.findOne({where: {id}});
 
         if (zone) {
-            await this.repository.softRemove(zone);
+            await this.repository.remove(zone);
         }
         else throw new NotFoundException(`Zone with id ${id} not found`);
         
