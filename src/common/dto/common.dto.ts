@@ -1,17 +1,21 @@
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { IsNumber } from 'class-validator';
 import { IsOptional, IsPositive, Min } from 'class-validator';
 
 export class PaginationDto {
   @IsOptional()
   @IsPositive()
-  @Type(() => Number)
-  page: number = 1; // Defino página por defecto 1.
+  @Transform(( {value}) => {
+    value === undefined || value === null || value === '' ? null : Number(value)
+  })
+  page: number | null = null; 
 
   @IsOptional()
   @Min(0)
-  @Type(() =>  Number)
-  quantity: number = 10; // Defino valor por defecto 10.
+ @Transform(( {value}) => {
+    value === undefined || value === null || value === '' ? null : Number(value)
+  })
+  quantity: number | null = null;
 }
 
 export class LocationDto {
