@@ -13,7 +13,7 @@ export class ZoneService {
     async find(pagination: PaginationDto):Promise<Zone[]> {
         const options: any = {}
 
-        if (pagination.page !== null && pagination.quantity !== null) {
+        if (pagination.page !== null) {
             const offset = this.calculateOffset(pagination.page, pagination.quantity);
             options.skip = offset;
             options.take = pagination.quantity;
@@ -84,7 +84,7 @@ export class ZoneService {
             where: { deliveries: {id: deliveryId}}
         }
 
-        if (pagination.page !== null && pagination.quantity !== null) {
+        if (pagination.page !== null) {
             const offset = this.calculateOffset(pagination.page, pagination.quantity)
             options.skip = offset;
             options.take = pagination.quantity;

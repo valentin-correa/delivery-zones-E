@@ -6,16 +6,17 @@ export class PaginationDto {
   @IsOptional()
   @IsPositive()
   @Transform(( {value}) => {
-    value === undefined || value === null || value === '' ? null : Number(value)
+    return value === undefined || value === null || value === '' ? null : Number(value)
   })
   page: number | null = null; 
 
   @IsOptional()
-  @Min(0)
- @Transform(( {value}) => {
+  @Transform(({ value }) =>
     value === undefined || value === null || value === '' ? null : Number(value)
-  })
-  quantity: number | null = null;
+  )
+  @IsNumber()
+  @Min(1)
+  quantity: number = 10;
 }
 
 export class LocationDto {

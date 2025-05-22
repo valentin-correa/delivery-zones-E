@@ -26,7 +26,7 @@ export class DeliveryService {
             return this.haversine(a.location.lat, a.location.lng, lat, lng) - this.haversine(b.location.lat, b.location.lng, lat, lng); 
              // Si distancia A es menor, 'a' estará antes que 'b'
         });
-        if (proximityInfo.page !== null && proximityInfo.quantity !== null) {
+        if (proximityInfo.page !== null) {
             return this.manualPagination(sortedDeliveries,proximityInfo.page,proximityInfo.quantity)
         }
 
@@ -65,7 +65,7 @@ export class DeliveryService {
     async findByZone(zoneId:FindByZoneDTO):Promise<Delivery[]>{
         const deliveries = await this.deliveryRepository.find({relations: ['zones'],});//.find({relations: ['zones'],}) trae la relacion zones
         const deliveriesWithThatZone = deliveries.filter(d=> d.zones.some(z=>z.id===zoneId.zoneId));
-        if (zoneId.page !== null && zoneId.quantity) {
+        if (zoneId.page !== null) {
             return this.manualPagination(deliveriesWithThatZone, zoneId.page, zoneId.quantity) 
         }
         return deliveriesWithThatZone;
