@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, DeleteDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Delivery } from "./deliveries.entity"
+import { Exclude } from "class-transformer";
 
 @Entity('zones')
 export class Zone extends BaseEntity {
@@ -18,4 +19,8 @@ export class Zone extends BaseEntity {
     @ManyToMany(() => Delivery, delivery => delivery.zones)
     @JoinTable()
     deliveries: Delivery[];
+
+    @Exclude()
+    @DeleteDateColumn()
+    deletedAt: Date;
 }

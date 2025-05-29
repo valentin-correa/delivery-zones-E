@@ -11,12 +11,17 @@ export class ZoneService {
   constructor(@InjectRepository(Zone) private repository: Repository<Zone>) { }
   
     async find(pagination: PaginationDto):Promise<Zone[]> {
-        const offset = this.calculateOffset(pagination.page, pagination.quantity)
-        return await this.repository.find({
-            skip: offset,
-            take: pagination.quantity
-    });
+        const options: any = {}
+
+        if (pagination.page !== null) {
+            const offset = this.calculateOffset(pagination.page, pagination.quantity);
+            options.skip = offset;
+            options.take = pagination.quantity;
+        }
+
+        return this.repository.find(options);
     }
+
     async create(newZone:ZoneDto): Promise<Zone>{
         const zone=this.repository.create(newZone);
         await this.repository.save(zone);
@@ -40,7 +45,7 @@ export class ZoneService {
         const zone = await this.repository.findOne({where: {id}});
 
         if (zone) {
-            await this.repository.remove(zone);
+            await this.repository.softRemove(zone);
         }
         else throw new NotFoundException(`Zone with id ${id} not found`);
         
@@ -74,8 +79,17 @@ export class ZoneService {
 }
 
     async findZonesByDeliveryId(deliveryId: number, pagination: PaginationDto): Promise<Zone[]> {
-        const offset = this.calculateOffset(pagination.page, pagination.quantity)
-        return await this.repository.find({ where: { deliveries: {id: deliveryId}}, skip: offset, take: pagination.quantity})
+
+        const options: any = {
+            where: { deliveries: {id: deliveryId}}
+        }
+
+        if (pagination.page !== null) {
+            const offset = this.calculateOffset(pagination.page, pagination.quantity)
+            options.skip = offset;
+            options.take = pagination.quantity;
+        }
+        return await this.repository.find(options)
     }
 
     calculateOffset(page: number, quantity: number): number{
