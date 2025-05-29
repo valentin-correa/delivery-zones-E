@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Zone } from '../entities/zones.entity';
-import { PartialUpdateZoneDto, ZoneDto } from './dto/zone.dto';
+import { PartialUpdateZoneDto, ZoneDto } from './dto/Zone.dto';
 import { PaginationDto } from 'src/common/dto/common.dto';
 import { take } from 'rxjs';
 
