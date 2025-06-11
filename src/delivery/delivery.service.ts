@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FindByProximityDto, FindByZoneDTO, UpdateDeliveryStatusDto, UpdateLocationDto } from './dto/delivery.dto';
 import { ZoneService } from 'src/zone/zone.service';
-import { ZoneDto } from 'src/zone/dto/zone.dto';
+import { ZoneDto } from 'src/zone/dto/Zone.dto';
 import { Delivery } from '../entities/deliveries.entity';
 import { Zone } from '../entities/zones.entity';
 import { CreateDeliveryDto, AssignZoneDto } from './dto/delivery.dto';
