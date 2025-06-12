@@ -18,17 +18,18 @@ export class AuthGuard implements CanActivate {
     try {
       const request = context.switchToHttp().getRequest();
       const token = request.headers.authorization.replace('Bearer ','');
-      const permissions = this.reflector.get(Permissions, context.getHandler());
+      const permissions = this.reflector.get(Permissions, context.getHandler())?? [];
       if (token == null) {
         throw new UnauthorizedException('El token no existe');
       }
-    const response = await axios.get(`http://localhost:3001/can-do/${permissions}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    });
-    return true
+      for (const permission of permissions) {
+        const res = await axios.get(`http://localhost:3001/can-do/${permission}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });}
+      return true
     } catch (error) {
       throw new UnauthorizedException(error?.message);
     }
