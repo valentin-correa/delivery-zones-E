@@ -54,11 +54,11 @@ export class DeliveryController {
         return await this.deliveryService.deleteDelivery(id)
     }
 
-    @UseGuards(AuthGuard)
-    @Permissions(['update-delivery'])
+    //@UseGuards(AuthGuard)
+    //@Permissions(['update-delivery'])
     @Delete(':id/zone/:zoneId') // DELETE /delivery/:id/zone/:zoneId
     async removeZoneFromDelivery(@Param('id') deliveryId: number,@Param('zoneId') zoneId: number) {
-        return await this.deliveryService.removeZoneFromDelivery(zoneId, deliveryId);
+        return await this.deliveryService.removeZoneFromDelivery(deliveryId, zoneId);
     }
 
     @UseGuards(AuthGuard)
