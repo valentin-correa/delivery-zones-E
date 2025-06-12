@@ -75,7 +75,9 @@ export class ZoneService {
 
     Object.assign(zone, updateData);
 
-    return this.repository.save(zone);
+    await this.repository.save(zone);
+
+    return (await this.repository.findOne({where: {id}}))!;
 }
 
     async findZonesByDeliveryId(deliveryId: number, pagination: PaginationDto): Promise<Zone[]> {
