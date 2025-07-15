@@ -13,7 +13,7 @@ export class Zone extends BaseEntity {
     @Column('jsonb')
     location: {'lat': number, 'lng': number};
 
-    @Column()
+    @Column({ type: 'real'})
     radius: number
 
     @ManyToMany(() => Delivery, delivery => delivery.zones)
