@@ -46,8 +46,8 @@ export class ZoneController {
         return await this.zoneService.findById(id)
     }
 
-    //@UseGuards(AuthGuard)
-    //@Permissions(['update-zone'])
+    @UseGuards(AuthGuard)
+    @Permissions(['update-zone'])
     @Patch(':id') // PATCH /zone/:id
     async partialUpdate(@Param('id') id: number,@Body() updateData: PartialUpdateZoneDto): Promise<Zone> {
         return this.zoneService.partialUpdate(id, updateData);
