@@ -125,7 +125,7 @@ export class DeliveryService {
         
         if (!delivery.zones.some(zone => zone.id === zoneId)) throw new Error(`Delivery ${deliveryId} is not associated with zone ${zoneId}`);
         
-        delivery.zones = delivery.zones.filter(zone => zone.id !== zoneId);
+        delivery.zones = delivery.zones.filter(zone => zone.id !== zoneId); //deja fuera la zona con el ID indicado
         
         await this.deliveryRepository.save(delivery);
         
